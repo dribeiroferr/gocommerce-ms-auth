@@ -26,3 +26,5 @@ func Logger() *logrus.Logger {
 
 	return logger
 }
+
+var Log = Logger()

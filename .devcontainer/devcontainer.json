@@ -1,0 +1,18 @@
+// .devcontainer/devcontainer.json
+{
+  "name": "Gocommerce ms auth Dev Container",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+      "extensions": ["golang.go", "ms-azuretools.vscode-docker"]
+    }
+  },
+  "forwardPorts": [8080, 9001],
+  "postCreateCommand": "go mod tidy && go build",
+  "remoteUser": "root"
+}
