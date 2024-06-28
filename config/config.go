@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"fmt"
@@ -11,9 +11,9 @@ import (
 
 // Config struct holds the configuration settings
 type Config struct {
-	//App Name
+	// App Name
 	AppName string
-	//JWT
+	// JWT Secret Key
 	SecretKey string
 	// Relational database
 	RelationalDBHost     string
@@ -21,7 +21,7 @@ type Config struct {
 	RelationalDBUser     string
 	RelationalDBPassword string
 	RelationalDBName     string
-	// Non relational database
+	// Non-relational database
 	NonRelationalDBHost     string
 	NonRelationalDBPort     string
 	NonRelationalDBUser     string
@@ -32,6 +32,7 @@ type Config struct {
 // LoadConfig loads the configuration from environment variables
 func LoadConfig() (*Config, error) {
 	commons.Log.Info("loading configurations")
+
 	// Define a map of default environment values
 	defaultEnvs := map[string]string{
 		"dev":  ".env.dev",
@@ -48,24 +49,23 @@ func LoadConfig() (*Config, error) {
 	// Load the environment variables from the corresponding .env file
 	err := godotenv.Load(defaultEnvs[env])
 	if err != nil {
-		// commons.Log.Errorf("error loading %s: %v", defaultEnvs[env], err)
 		return nil, fmt.Errorf("error loading %s: %w", defaultEnvs[env], err)
 	}
 
 	// Create an instance of Config struct with environment variable values
 	config := &Config{
-		AppName:              os.Getenv("APP_NAME"),
-		SecretKey:            os.Getenv("SECRET_KEY"),
-		RelationalDBHost:     os.Getenv("RELATIONAL_DB_HOST"),
-		RelationalDBPort:     os.Getenv("RELATIONAL_DB_PORT"),
-		RelationalDBUser:     os.Getenv("RELATIONAL_DB_USER"),
-		RelationalDBPassword: os.Getenv("RELATIONAL_DB_PASSWORD"),
-		RelationalDBName:     os.Getenv("RELATIONAL_DB_NAME"),
-		NonRelationalDBHost:  os.Getenv("NON_RELATIONAL_DB_HOST"),
-		NonRelationalDBPort:  os.Getenv("NON_RELATIONAL_DB_PORT"),
-		NonRelationalDBUser:  os.Getenv("NON_RELATIONAL_DB_USER"),
+		AppName:                 os.Getenv("APP_NAME"),
+		SecretKey:               os.Getenv("SECRET_KEY"),
+		RelationalDBHost:        os.Getenv("RELATIONAL_DB_HOST"),
+		RelationalDBPort:        os.Getenv("RELATIONAL_DB_PORT"),
+		RelationalDBUser:        os.Getenv("RELATIONAL_DB_USER"),
+		RelationalDBPassword:    os.Getenv("RELATIONAL_DB_PASSWORD"),
+		RelationalDBName:        os.Getenv("RELATIONAL_DB_NAME"),
+		NonRelationalDBHost:     os.Getenv("NON_RELATIONAL_DB_HOST"),
+		NonRelationalDBPort:     os.Getenv("NON_RELATIONAL_DB_PORT"),
+		NonRelationalDBUser:     os.Getenv("NON_RELATIONAL_DB_USER"),
 		NonRelationalDBPassword: os.Getenv("NON_RELATIONAL_DB_PASSWORD"),
-		NonRelationalDBName:  os.Getenv("NON_RELATIONAL_DB_NAME"),
+		NonRelationalDBName:     os.Getenv("NON_RELATIONAL_DB_NAME"),
 	}
 
 	// Use reflection to check if all required environment variables are set
